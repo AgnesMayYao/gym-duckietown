@@ -61,7 +61,7 @@ class ActorCNN(nn.Module):
         x_mean = self.lin2(x)
         x_std = self.lin2(x)
 
-        x_std = torch.clamp(x_std, min = -20, max = 20)
+        x_std = torch.clamp(x_std, min = -0.2, max = 0.2)
 
         return x_mean, x_std
 
@@ -271,5 +271,5 @@ class SAC(object):
         #print("Saved Critic")
         
     def load(self, filename, directory):
-        self.actor.load_state_dict(torch.load('{}/{}_actor.pth'.format(directory, filename), map_location=device))
+        self.policy_net.load_state_dict(torch.load('{}/{}_actor.pth'.format(directory, filename), map_location=device))
         #self.critic.load_state_dict(torch.load('{}/{}_critic.pth'.format(directory, filename), map_location=device))
