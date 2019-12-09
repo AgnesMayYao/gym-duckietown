@@ -251,7 +251,6 @@ class SAC(object):
             self.value_optimizer.step()
 
             # Update policy by one step of gradient ascent
-            print("log_prob: ", log_prob, predicted_new_q_value)
             policy_loss = (log_prob - predicted_new_q_value).mean()
             self.policy_optimizer.zero_grad()
             policy_loss.backward()
