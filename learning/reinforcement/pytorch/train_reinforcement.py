@@ -54,6 +54,7 @@ def _train(args):
     # Evaluate untrained policy
     evaluations= [evaluate_policy(env, policy)]
    
+    output = []
     total_timesteps = 0
     timesteps_since_eval = 0
     episode_num = 0
@@ -72,6 +73,7 @@ def _train(args):
             if total_timesteps != 0:
                 print(("Total T: %d Episode Num: %d Episode T: %d Reward: %f") % (
                     total_timesteps, episode_num, episode_timesteps, episode_reward))
+                output.append([total_timesteps, episode_num, episode_timesteps, episode_reward])
                 policy.train(replay_buffer, episode_timesteps, args.batch_size, args.discount, args.tau)
 
                 # Evaluate episode
@@ -83,10 +85,10 @@ def _train(args):
                     if args.save_models:
                         if args.model == 'ddpg':
                             policy.save(filename='ddpg', directory=args.model_dir)
-                            np.savez("./results/ddpg_rewards.npz",evaluations)
+                            np.savez("./results/ddpg_rewards.npz",output)
                         elif args.model == 'sac':
                             policy.save(filename = 'sac', directory = args.model_dir)
-                            np.savez("./results/sac_rewards.npz",evaluations)
+                            np.savez("./results/sac_rewards.npz",output)
                     
 
             # Reset environment
