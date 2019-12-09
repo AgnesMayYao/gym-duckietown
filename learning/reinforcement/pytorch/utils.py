@@ -70,5 +70,6 @@ def evaluate_policy(env, policy, eval_episodes=10, max_timesteps=500):
             step += 1
 
     avg_reward /= eval_episodes
+    step /= eval_episodes
 
-    return avg_reward
+    return avg_reward, step
